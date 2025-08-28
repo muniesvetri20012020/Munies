@@ -1,0 +1,167 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Workload Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        input { width: 100px; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        #results { margin-top: 20px; }
+        .result-item { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Post Workload Calculator</h1>
+    <p>Enter the data values for each item in congested and less congested areas. Click "Calculate" to see the results.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Congested Area Data</th>
+                <th>Less Congested Area Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. Delivery of Unregistered mail (other than multi storied buildings)</td>
+                <td><input type="number" step="0.01" id="c1" value="0"></td>
+                <td><input type="number" step="0.01" id="l1" value="0"></td>
+            </tr>
+            <tr>
+                <td>2. Delivery of Unregistered mail in multi storied buildings (where no mail box at ground floor)</td>
+                <td><input type="number" step="0.01" id="c2" value="0"></td>
+                <td><input type="number" step="0.01" id="l2" value="0"></td>
+            </tr>
+            <tr>
+                <td>3. Delivery of unregister bulk mail in bulk</td>
+                <td><input type="number" step="0.01" id="c3" value="0"></td>
+                <td><input type="number" step="0.01" id="l3" value="0"></td>
+            </tr>
+            <tr>
+                <td>4. Register and parcel mail (excluding insured, value payable and speed post articles)</td>
+                <td><input type="number" step="0.01" id="c4" value="0"></td>
+                <td><input type="number" step="0.01" id="l4" value="0"></td>
+            </tr>
+            <tr>
+                <td>5. Delivery of register and parcel (special list)</td>
+                <td><input type="number" step="0.01" id="c5" value="0"></td>
+                <td><input type="number" step="0.01" id="l5" value="0"></td>
+            </tr>
+            <tr>
+                <td>6. Delivery of value payable and customs duty articles</td>
+                <td><input type="number" step="0.01" id="c6" value="0"></td>
+                <td><input type="number" step="0.01" id="l6" value="0"></td>
+            </tr>
+            <tr>
+                <td>7. Return of value payable and customs duty articles</td>
+                <td><input type="number" step="0.01" id="c7" value="0"></td>
+                <td><input type="number" step="0.01" id="l7" value="0"></td>
+            </tr>
+            <tr>
+                <td>8. Money order paid</td>
+                <td><input type="number" step="0.01" id="c8" value="0"></td>
+                <td><input type="number" step="0.01" id="l8" value="0"></td>
+            </tr>
+            <tr>
+                <td>9. Money order returned unpaid</td>
+                <td><input type="number" step="0.01" id="c9" value="0"></td>
+                <td><input type="number" step="0.01" id="l9" value="0"></td>
+            </tr>
+            <tr>
+                <td>10. Unpaid articles</td>
+                <td><input type="number" step="0.01" id="c10" value="0"></td>
+                <td><input type="number" step="0.01" id="l10" value="0"></td>
+            </tr>
+            <tr>
+                <td>11. Delivery of speed post (person specific like aadhar, licence, passport)</td>
+                <td><input type="number" step="0.01" id="c11" value="0"></td>
+                <td><input type="number" step="0.01" id="l11" value="0"></td>
+            </tr>
+            <tr>
+                <td>12. Delivery of insured articles</td>
+                <td><input type="number" step="0.01" id="c12" value="0"></td>
+                <td><input type="number" step="0.01" id="l12" value="0"></td>
+            </tr>
+            <tr>
+                <td>13. Return of insured articles</td>
+                <td><input type="number" step="0.01" id="c13" value="0"></td>
+                <td><input type="number" step="0.01" id="l13" value="0"></td>
+            </tr>
+            <tr>
+                <td>14. Delivery of accountable articles in multi storied building</td>
+                <td><input type="number" step="0.01" id="c14" value="0"></td>
+                <td><input type="number" step="0.01" id="l14" value="0"></td>
+            </tr>
+            <tr>
+                <td>15. Return by postman</td>
+                <td><input type="number" step="0.01" id="c15" value="0"></td>
+                <td><input type="number" step="0.01" id="l15" value="0"></td>
+            </tr>
+            <tr>
+                <td>16a. Distance travelled by foot (km)</td>
+                <td><input type="number" step="0.01" id="c_foot" value="0"></td>
+                <td><input type="number" step="0.01" id="l_foot" value="0"></td>
+            </tr>
+            <tr>
+                <td>16b. Distance travelled by bicycle (km)</td>
+                <td><input type="number" step="0.01" id="c_bicycle" value="0"></td>
+                <td><input type="number" step="0.01" id="l_bicycle" value="0"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <button onclick="calculate()">Calculate</button>
+    
+    <div id="results"></div>
+    
+    <script>
+        function calculate() {
+            const factors_c = [0.72, 0.72, 0.285, 2.5, 4.5, 3, 2.5, 3.85, 2.5, 2, 2.5, 3.5, 2.5, 1.8, 20];
+            const factors_l = [0.72, 0.72, 0.29, 2.5, 4.5, 3, 2.5, 3.85, 2.5, 2, 2.5, 3.5, 2.5, 1.8, 20];
+            
+            let total_c = 0;
+            let total_l = 0;
+            
+            for (let i = 1; i <= 15; i++) {
+                const c_val = parseFloat(document.getElementById(`c${i}`).value) || 0;
+                const l_val = parseFloat(document.getElementById(`l${i}`).value) || 0;
+                total_c += factors_c[i-1] * c_val;
+                total_l += factors_l[i-1] * l_val;
+            }
+            
+            const c_foot = parseFloat(document.getElementById('c_foot').value) || 0;
+            const l_foot = parseFloat(document.getElementById('l_foot').value) || 0;
+            const c_bicycle = parseFloat(document.getElementById('c_bicycle').value) || 0;
+            const l_bicycle = parseFloat(document.getElementById('l_bicycle').value) || 0;
+            
+            total_c += 19 * c_foot;  // Include foot but not bicycle for congested
+            total_l += 15 * l_foot + 8 * l_bicycle;  // Include both foot and bicycle for less congested
+            
+            const c_bicycle_time = 10 * c_bicycle;
+            const l_bicycle_time = 8 * l_bicycle;
+            
+            const total_minutes = total_c + total_l;
+            const total_hours = total_minutes / 60;
+            
+            document.getElementById('results').innerHTML = `
+                <h2>Results</h2>
+                <div class="result-item"><strong>Total Congested Area Time (minutes):</strong> ${total_c.toFixed(3)}</div>
+                <div class="result-item"><strong>Total Less Congested Area Time (minutes):</strong> ${total_l.toFixed(3)}</div>
+                <div class="result-item"><strong>Time Taken to Travel in Congested Area by Bicycle (minutes):</strong> ${c_bicycle_time.toFixed(3)}</div>
+                <div class="result-item"><strong>Time Taken to Travel in Less Congested Area by Bicycle (minutes):</strong> ${l_bicycle_time.toFixed(3)}</div>
+                <div class="result-item"><strong>Total Time Taken (minutes):</strong> ${total_minutes.toFixed(3)}</div>
+                <div class="result-item"><strong>Total Time Taken (hours):</strong> ${total_hours.toFixed(6)}</div>
+            `;
+        }
+    </script>
+</body>
+</html>
+```
