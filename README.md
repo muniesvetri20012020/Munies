@@ -78,12 +78,6 @@ Limitations
 - Factors are based on provided standards and may need updates for regulatory changes.
 - Does not account for external variables like weather or traffic; use as an estimation aid.
 
-Contributing
-
-Feel free to fork this repository, suggest improvements, or submit pull requests. For issues or feature requests, open a GitHub issue.
-
-Credits
-
 Developed with assistance from Grok by xAI. Inspired by postal workload assessment needs for operational fairness.
 
 For questions, contact [Munies].
